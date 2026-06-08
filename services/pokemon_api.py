@@ -1,4 +1,5 @@
 import requests
+from models.move import Move, StatusMove, DamageMove
 poke_url = "https://pokeapi.co/api/v2/pokemon/"
 
 class PokemonAPI:
@@ -20,7 +21,7 @@ class PokemonAPI:
             "base_attack": int(response["stats"][1]["base_stat"]),
             "base_defense": int(response["stats"][2]["base_stat"]),
             "base_speed": int(response["stats"][5]["base_stat"]),
-            "moves": moves
+            "moves": self.create_moves(moves)
         }
 
         return data
@@ -43,7 +44,35 @@ class PokemonAPI:
 
             data.append({
                 "name": move_name,
-                "power": move_data["power"] or 0
+                "power": move_data["power"] or 0,
+                "type": move_data["type"]["name"],
+                "category": move_data["damage_class"]["name"],
+                "target": move_data["target"]["name"],
+                "stat_changes": move_data["stat_changes"]
             })
 
         return data
+    
+    def create_moves(self, moves_api):
+        moves = []
+        for move_data in moves_api:
+            if move_data["category"] == "status":
+                move = StatusMove(
+                    move_data["name"],
+                    move_data["power"],
+                    move_data["type"].capitalize(),
+                    move_data["category"],
+                    move_data["target"],
+                    move_data["stat_changes"]
+                )
+            else:
+                move = DamageMove(
+                    move_data["name"],
+                    move_data["power"],
+                    move_data["type"].capitalize(),
+                    move_data["category"],
+                    move_data["target"],
+                    move_data["stat_changes"]
+                )
+            moves.append(move)
+        return moves

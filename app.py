@@ -14,13 +14,67 @@ weather_api = WeatherApi('current', 'Mexico')
 pokemon_selected = pokemon_api.get_pokemon()
 pikachu = Pokemon(pokemon_selected["name"], pokemon_selected["type"], pokemon_selected["level"] ,pokemon_selected["weight"], pokemon_selected["height"], pokemon_selected["base_health"], pokemon_selected["base_attack"], pokemon_selected["base_defense"], pokemon_selected["moves"], pokemon_selected["base_speed"])
 
+print(pokemon_selected)
+
 pokemon_api = PokemonAPI('Charmander')
 pokemon_selected = pokemon_api.get_pokemon()
 charmander = Pokemon(pokemon_selected["name"], pokemon_selected["type"], pokemon_selected["level"] ,pokemon_selected["weight"], pokemon_selected["height"], pokemon_selected["base_health"], pokemon_selected["base_attack"], pokemon_selected["base_defense"], pokemon_selected["moves"], pokemon_selected["base_speed"])
 
-batalha = Battle()
-batalha.decide_action(pikachu, charmander, )
 
+batalha = Battle()
+
+first_pokemon = (
+    pikachu
+    if pikachu.speed > charmander.speed
+    else charmander
+)
+
+second_pokemon = (
+    charmander
+    if first_pokemon == pikachu
+    else pikachu
+)
+
+while batalha.check_battle_status(
+    first_pokemon,
+    second_pokemon
+) == "continue":
+
+    print("\n------------------")
+    print(f"Turn: {batalha.count_turn}")
+    print(f"{pikachu.name}: {pikachu.health} HP")
+    print(f"{charmander.name}: {charmander.health} HP")
+    print("------------------")
+
+    batalha.handle_turn(
+        first_pokemon,
+        second_pokemon
+    )
+
+    current_attacker = batalha.order_to_play[0]
+    current_defender = batalha.order_to_play[1]
+
+    print(f"{current_attacker.name}'s turn")
+    print(batalha.print_moves(current_attacker.moves))
+    action = input("Choose a move (or type heal): ").lower()
+
+    if action == "heal":
+        batalha.decide_action(
+            current_attacker,
+            current_defender,
+            "heal"
+        )
+    else:
+        move = current_attacker.choose_move(action)
+
+        if move:
+            batalha.decide_action(
+                current_attacker,
+                current_defender,
+                move
+            )
+        else:
+            print("Invalid move!")
 if __name__ == "__main__":
 
     app.run(debug=True)
