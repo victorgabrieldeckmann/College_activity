@@ -47,9 +47,23 @@ class Pokemon:
     def change_stat(self, stat_name, amount):
         current_value = getattr(self, stat_name)
 
+        base_stat = getattr(
+            self,
+            f"{stat_name}_base"
+        )
+
+        new_value = current_value + amount
+
+        new_value = max(
+            1,
+            min(base_stat * 2, new_value)
+        )
+
         setattr(
             self,
             stat_name,
-            max(1, current_value + amount)
+            new_value
         )
+
+        return current_value, new_value
 

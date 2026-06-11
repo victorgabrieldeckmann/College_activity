@@ -1,3 +1,4 @@
+from services.weather_api import WeatherApi
 class Move:
     def __init__(self, name, power, type, category, target, stat_changes):
         self.name = name
@@ -47,13 +48,13 @@ class StatusMove(Move):
 
             change = effect["change"]
 
-            target_pokemon.change_stat(
-                stat_name,
-                change * 10
-            )
+            old_value, new_value = target_pokemon.change_stat(
+            stat_name,
+            change * 10
+        )
 
-            print(
-                f"{target_pokemon.name}'s "
-                f"{stat_name} changed by "
-                f"{change}"
-            )
+        print(
+            f"{target_pokemon.name}'s "
+            f"{stat_name} changed from "
+            f"{old_value} to {new_value}"
+        )

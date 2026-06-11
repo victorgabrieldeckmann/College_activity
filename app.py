@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from services.pokemon_api import PokemonAPI
 from services.weather_api import WeatherApi
+from services.pokemon_type_api import TypePokemon
 from models.pokemon import Pokemon
 from models.battle import Battle
 app = Flask(__name__)
@@ -13,8 +14,6 @@ pokemon_api = PokemonAPI('Pikachu')
 weather_api = WeatherApi('current', 'Mexico')
 pokemon_selected = pokemon_api.get_pokemon()
 pikachu = Pokemon(pokemon_selected["name"], pokemon_selected["type"], pokemon_selected["level"] ,pokemon_selected["weight"], pokemon_selected["height"], pokemon_selected["base_health"], pokemon_selected["base_attack"], pokemon_selected["base_defense"], pokemon_selected["moves"], pokemon_selected["base_speed"])
-
-print(pokemon_selected)
 
 pokemon_api = PokemonAPI('Charmander')
 pokemon_selected = pokemon_api.get_pokemon()
@@ -53,6 +52,10 @@ while batalha.check_battle_status(
 
     current_attacker = batalha.order_to_play[0]
     current_defender = batalha.order_to_play[1]
+
+    type_api = TypePokemon()
+
+    print(type_api.get_type_effectiveness(current_attacker.type, current_defender.type))
 
     print(f"{current_attacker.name}'s turn")
     print(batalha.print_moves(current_attacker.moves))
