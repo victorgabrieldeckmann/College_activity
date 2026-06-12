@@ -53,10 +53,11 @@ class Battle:
     def check_battle_status(self, pokemon1, pokemon2):
         if pokemon1.health > 0 and pokemon2.health > 0:
             return "continue"
-        elif pokemon1.health > 0 and pokemon2.health == 0:
-            return {"winner" : pokemon1}
-        else:
-            return {"winner" : pokemon2}
+
+        if pokemon1.health > 0:
+            return pokemon1
+
+        return pokemon2
 
     def heal_pokemon(self, pokemon_to_heal):
         pokemon_to_heal.heal_pokemon()

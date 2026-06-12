@@ -37,17 +37,17 @@ class DamageMove(Move):
 
         if type_multiplier == 2:
             print("It's super effective!")
-            print(f"{defender.name} received {damage} damage!")
+            print(f"{defender.name} received {round(damage)} damage!")
 
         elif type_multiplier == 0.5:
             print("It's not very effective...")
-            print(f"{defender.name} received {damage} damage!")
+            print(f"{defender.name} received {round(damage)} damage!")
 
         elif type_multiplier == 0:
             print("It doesn't affect the opponent!")
 
         else:
-            print(f"{defender.name} received {damage} damage!")
+            print(f"{defender.name} received {round(damage)} damage!")
 
         print(
             f"{defender.name} HP: "

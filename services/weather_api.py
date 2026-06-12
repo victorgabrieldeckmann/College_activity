@@ -9,10 +9,24 @@ api_key = os.getenv("WEATHER_API_KEY")
 
 class WeatherApi:
     def get_current_weather(self, city):
-        response = requests.get(f"{url}/current.json?key={api_key}&q={city}").json()
+        response = requests.get(
+            f"{url}/current.json?key={api_key}&q={city}"
+        ).json()
 
-        data = response["current"]["condition"]["text"]
-        return self.normalize_weather(data.lower())
+        if "error" in response:
+            raise ValueError(
+                response["error"]["message"]
+            )
+
+        weather = (
+            response["current"]
+            ["condition"]
+            ["text"]
+        )
+
+        return self.normalize_weather(
+            weather.lower()
+        )
 
     def normalize_weather(self,data):
         match data:

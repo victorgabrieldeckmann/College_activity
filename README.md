@@ -1,4 +1,4 @@
-# Pokémon Battle Simulator
+# PokeWeather Fight
 
 This project is being developed as a university assignment focused on Object-Oriented Programming concepts such as classes, inheritance, polymorphism, and class relationships.
 
@@ -8,7 +8,121 @@ The application uses external APIs to retrieve Pokémon and weather data and sim
 
 ## Project Status
 
-🚧 This project is currently under development. Features, architecture, and game mechanics may change as development progresses.
+✅ First playable version completed.
+
+Implemented features:
+
+- Turn-based battle system
+- Move inheritance (DamageMove and StatusMove)
+- Type effectiveness system
+- Weather battle modifiers
+- Stat buffs and debuffs
+- Healing system
+- Player vs CPU battles
+- Input validation for Pokémon, city, and moves
+
+🚧 Planned features:
+
+- Improved CPU decision-making
+- Web interface integration
+- Multiple Pokémon teams
+- Additional battle mechanics
+
+## Battle System
+
+The current version of the project includes a fully functional turn-based battle system.
+
+### Battle Flow
+
+1. The player chooses two Pokémon using data retrieved from the PokéAPI.
+2. A city is selected, and the current weather is obtained through the WeatherAPI.
+3. The Pokémon with the highest Speed stat attacks first.
+4. Players take turns selecting actions until one Pokémon faints.
+5. The winner is declared when the opponent's HP reaches zero.
+
+### Available Actions
+
+Each Pokémon can:
+
+* Use one of its available moves
+* Use a healing potion
+
+Healing potions restore health points but cannot be used when the Pokémon is already at full health.
+
+### Move System
+
+Moves are divided into two categories:
+
+#### Damage Moves
+
+Damage moves calculate the amount of damage dealt based on:
+
+* Move power
+* Attacker Attack stat
+* Defender Defense stat
+* Type effectiveness
+* Weather modifiers
+
+#### Status Moves
+
+Status moves can modify battle statistics such as:
+
+* Attack
+* Defense
+* Speed
+
+Buffs and debuffs are applied according to the move target:
+
+* `user`: affects the Pokémon that used the move
+* `opponent`: affects the enemy Pokémon
+
+### Type Effectiveness
+
+The simulator uses Pokémon type relations obtained from the PokéAPI.
+
+Examples:
+
+* Fire is super effective against Grass
+* Water is super effective against Fire
+* Electric is super effective against Water
+
+Effectiveness multipliers:
+
+* 2.0× → Super effective
+* 0.5× → Not very effective
+* 0× → No effect
+* 1.0× → Normal damage
+
+### Weather Effects
+
+The current weather affects move effectiveness during battle.
+
+Examples:
+
+| Weather | Buffed Types | Weakened Types |
+| ------- | ------------ | -------------- |
+| Sun     | Fire         | Water          |
+| Rain    | Water        | Fire           |
+| Storm   | Electric     | Flying         |
+| Snow    | Ice          | Grass          |
+| Fog     | Ghost, Dark  | Normal         |
+| Cloud   | Flying       | Fire           |
+
+Weather modifiers:
+
+* Buffed types: 1.2× damage
+* Weakened types: 0.8× damage
+
+### CPU Opponent
+
+The project currently includes a CPU-controlled trainer.
+
+The CPU selects actions automatically by choosing randomly between:
+
+* Available moves
+* Healing (when potions are available)
+
+More advanced battle AI is planned for future versions.
 
 
 ## Requirements
